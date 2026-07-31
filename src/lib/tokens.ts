@@ -1,0 +1,32 @@
+export const T = {
+  bg: "#060D16",
+  surface: "#0A1628",
+  card: "#0E1E36",
+  card2: "#091524",
+  border: "rgba(198,167,78,0.14)",
+  border2: "rgba(255,255,255,0.06)",
+  gold: "#C6A74E",
+  goldL: "#E0C97A",
+  goldD: "#B9932F",
+  ivory: "#F2E6C9",
+  ivoryS: "#F7F1E3",
+  muted: "#8A7F6E",
+  muted2: "#C8BFA8",
+  ndc: "#1B6B1B",
+  npp: "#163488",
+  swing: "#C45E08",
+  ndcBg: "rgba(27,107,27,0.14)",
+  nppBg: "rgba(22,52,136,0.14)",
+  swingBg: "rgba(196,94,8,0.14)",
+  green: "#2ECC71",
+  red: "#E74C3C",
+  blue: "#3498DB",
+  teal: "#1ABC9C",
+};
+
+export const PILLARS = [
+  { id: "geographic", icon: "🗺", label: "Geographic", sub: "16 Regions · 261 Districts", color: "#5BBFEA" },
+  { id: "electoral", icon: "🗳", label: "Electoral", sub: "276 Constituencies · 2024 Data", color: T.gold },
+  { id: "institutions", icon: "🏛", label: "Institutions", sub: "175 State Bodies · SIGA Classified", color: "#9B59B6" },
+  { id: "economic", icon: "📊", label: "Economic", sub: "GDP · CPI · Markets · Fiscal", color: T.green },
+];
