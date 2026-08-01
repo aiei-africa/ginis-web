@@ -37,13 +37,13 @@ export default function HomePage() {
               African Institute for Electoral Intelligence
             </span>
           </div>
-          <h1 style={{ fontSize: "clamp(1.4rem,6vw,2.1rem)", fontWeight: 700, lineHeight: 1.15, marginBottom: 8, fontFamily: "var(--font-playfair)", color: T.ivoryS, letterSpacing: -0.5 }}>
+          <h1 className="text-[clamp(1.4rem,4vw,2.6rem)]" style={{ fontWeight: 700, lineHeight: 1.15, marginBottom: 8, fontFamily: "var(--font-playfair)", color: T.ivoryS, letterSpacing: -0.5 }}>
             Ghana Integrated<br /><span style={{ color: T.gold }}>National Intelligence</span><br />System
           </h1>
-          <p style={{ fontSize: 11, color: T.muted2, lineHeight: 1.95, marginBottom: 18, fontWeight: 300, maxWidth: 380 }}>
+          <p className="max-w-full md:max-w-[520px]" style={{ fontSize: 11, color: T.muted2, lineHeight: 1.95, marginBottom: 18, fontWeight: 300 }}>
             GINIS is AIEI&apos;s flagship data intelligence platform for Ghana — unifying geographic, electoral, institutional, and economic intelligence into one decision-support system. Engineering trust in Ghana&apos;s democracy through data.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 1, border: `1px solid ${T.border}`, borderRadius: 2, overflow: "hidden" }}>
+          <div className="grid grid-cols-4" style={{ gap: 1, border: `1px solid ${T.border}`, borderRadius: 2, overflow: "hidden" }}>
             {STATS.map(([v, l]) => (
               <div key={l} style={{ padding: "10px 4px", textAlign: "center", borderRight: `1px solid ${T.border}` }}>
                 <div style={{ fontSize: "1.4rem", fontWeight: 700, color: T.gold, fontFamily: "var(--font-cormorant)", letterSpacing: -0.5 }}>{v}</div>
@@ -59,7 +59,7 @@ export default function HomePage() {
         <div style={{ fontSize: 9, letterSpacing: ".22em", color: T.gold, fontFamily: "var(--font-outfit)", fontWeight: 600, textTransform: "uppercase", marginBottom: 14 }}>
           Four Intelligence Pillars
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
           {PILLARS.map((p) => (
             <Link
               key={p.id}
@@ -96,25 +96,29 @@ export default function HomePage() {
       </div>
 
       {/* AIEI About Section */}
-      <div style={{ padding: "16px 14px", borderTop: `1px solid ${T.border}`, marginTop: 4, background: "rgba(10,22,40,0.6)" }}>
-        <div style={{ fontSize: 9, letterSpacing: ".22em", color: T.gold, fontFamily: "var(--font-outfit)", fontWeight: 600, textTransform: "uppercase", marginBottom: 10 }}>About AIEI</div>
-        <p style={{ fontSize: 11, color: T.muted2, lineHeight: 1.85, fontWeight: 300, marginBottom: 14 }}>
-          AIEI is a premier, non-partisan institution advancing the science and practice of elections through data intelligence, digital innovation, and rigorous policy research — positioned at the intersection of technology, governance, and democratic accountability.
-        </p>
-        <div style={{ background: "rgba(9,21,36,0.7)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "14px 12px", marginBottom: 10 }}>
-          <div style={{ fontSize: 8.5, color: T.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>Vision</div>
-          <div style={{ fontSize: 10.5, color: T.ivory, lineHeight: 1.7, fontWeight: 300 }}>To establish Africa as a global benchmark for transparent, data-driven, and technologically resilient electoral systems.</div>
+      <div className="md:grid md:grid-cols-2 md:gap-6" style={{ padding: "16px 14px", borderTop: `1px solid ${T.border}`, marginTop: 4, background: "rgba(10,22,40,0.6)" }}>
+        <div>
+          <div style={{ fontSize: 9, letterSpacing: ".22em", color: T.gold, fontFamily: "var(--font-outfit)", fontWeight: 600, textTransform: "uppercase", marginBottom: 10 }}>About AIEI</div>
+          <p style={{ fontSize: 11, color: T.muted2, lineHeight: 1.85, fontWeight: 300, marginBottom: 14 }}>
+            AIEI is a premier, non-partisan institution advancing the science and practice of elections through data intelligence, digital innovation, and rigorous policy research — positioned at the intersection of technology, governance, and democratic accountability.
+          </p>
         </div>
-        <div style={{ background: "rgba(9,21,36,0.7)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "14px 12px" }}>
-          <div style={{ fontSize: 8.5, color: T.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>Mission</div>
-          <div style={{ fontSize: 10.5, color: T.ivory, lineHeight: 1.7, fontWeight: 300 }}>To advance electoral integrity through intelligence-led solutions, combining data science, digital technologies, policy research, and capacity development.</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div style={{ background: "rgba(9,21,36,0.7)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "14px 12px" }}>
+            <div style={{ fontSize: 8.5, color: T.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>Vision</div>
+            <div style={{ fontSize: 10.5, color: T.ivory, lineHeight: 1.7, fontWeight: 300 }}>To establish Africa as a global benchmark for transparent, data-driven, and technologically resilient electoral systems.</div>
+          </div>
+          <div style={{ background: "rgba(9,21,36,0.7)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "14px 12px" }}>
+            <div style={{ fontSize: 8.5, color: T.gold, letterSpacing: ".14em", textTransform: "uppercase", marginBottom: 6, fontWeight: 600 }}>Mission</div>
+            <div style={{ fontSize: 10.5, color: T.ivory, lineHeight: 1.7, fontWeight: 300 }}>To advance electoral integrity through intelligence-led solutions, combining data science, digital technologies, policy research, and capacity development.</div>
+          </div>
         </div>
       </div>
 
       {/* AIEI Core Values */}
       <div style={{ padding: "14px 14px 4px" }}>
         <div style={{ fontSize: 9, letterSpacing: ".22em", color: T.gold, fontFamily: "var(--font-outfit)", fontWeight: 600, textTransform: "uppercase", marginBottom: 10 }}>Core Values</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-1.5">
           {CORE_VALUES.map((v) => (
             <div key={v.name} style={{ background: "rgba(14,30,54,.5)", border: `1px solid ${T.border}`, borderRadius: 4, padding: "10px 9px" }}>
               <div style={{ fontSize: 14, marginBottom: 4 }}>{v.icon}</div>
@@ -131,7 +135,7 @@ export default function HomePage() {
         <div style={{ fontSize: 9.5, color: T.muted, fontWeight: 300, marginBottom: 10 }}>
           Five pillars of electoral intelligence — the AIEI multidisciplinary framework integrating political science, data analytics, cybersecurity, and governance expertise.
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
           {STRATEGIC_PILLARS.map((p) => (
             <div key={p.n} style={{ background: "rgba(9,21,36,0.6)", border: `1px solid ${p.color}22`, borderRadius: 4, padding: "10px 12px", display: "flex", alignItems: "center", gap: 12, position: "relative", overflow: "hidden" }}>
               <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 2, background: p.color }} />

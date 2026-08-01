@@ -79,7 +79,7 @@ export default function ElectoralPage() {
       </div>
 
       <div style={{ padding: "0 12px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 8 }}>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {sorted.map((r) => {
             const e = ELEC_2024[r.name];
             const pc = POLITICAL_CHAR[r.name];

@@ -83,7 +83,7 @@ export default function InstitutionsPage() {
         <div style={{ fontSize: 8.5, color: T.muted, letterSpacing: ".18em", textTransform: "uppercase", marginBottom: 8, fontFamily: "var(--font-outfit)" }}>
           {visible.length} Institutions Shown
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-1.5">
           {visible.map((i) => {
             const sc = sectColor(i.sector);
             return (

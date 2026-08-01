@@ -46,7 +46,7 @@ export default function FusionPage() {
         <p style={{ fontSize: 11, color: T.muted, fontWeight: 300, lineHeight: 1.85, marginBottom: 14 }}>
           Cross-pillar analytics integrating all four GINIS domains — Geographic, Electoral, Institutional, and Economic — to identify structural patterns invisible to single-domain analysis.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 8, marginBottom: 14 }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {PILLARS.map((p) => (
             <div key={p.id} style={{ border: `1px solid ${p.color}33`, borderRadius: 4, padding: 10, background: `${p.color}08` }}>
               <div style={{ fontSize: 16, marginBottom: 4 }}>{p.icon}</div>
