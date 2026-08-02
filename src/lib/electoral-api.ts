@@ -60,6 +60,13 @@ async function safeFetch(url: string, label: string) {
   }
 }
 
+export async function fetchNationalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
+  const url = `${API_URL}/electoral/national?year=${year}&type=${type}`;
+  const res = await fetch(url, { cache: "no-store", headers: { "User-Agent": "GINIS-Web/1.0 (+https://ginis.aiei-africa.org)", "Accept": "application/json" } });
+  if (!res.ok) throw new Error(`national results failed with status ${res.status}`);
+  return res.json();
+}
+
 export async function fetchRegionalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
   const res = await safeFetch(`${API_URL}/electoral/regional?year=${year}&type=${type}`, "regional results");
   return res.json();

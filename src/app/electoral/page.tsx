@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { T } from "@/lib/tokens";
 import { slugify } from "@/lib/data/regions";
-import { fetchRegionalResults, groupRegional, partyColor, leanColor, leanLabel } from "@/lib/electoral-api";
+import { fetchRegionalResults, fetchNationalResults, groupRegional, partyColor, leanColor, leanLabel } from "@/lib/electoral-api";
 
 export const dynamic = "force-dynamic";
 
 export default async function ElectoralPage() {
   const rows = await fetchRegionalResults(2024, "PRESIDENTIAL");
+  const nationalRows = await fetchNationalResults(2024, "PRESIDENTIAL");
   const regions = groupRegional(rows);
 
-  const nationalNDC = rows.filter((r) => r.party_abbr === "NDC").reduce((s, r) => s + r.votes, 0);
-  const nationalNPP = rows.filter((r) => r.party_abbr === "NPP").reduce((s, r) => s + r.votes, 0);
-  const nationalTotal = regions.reduce((s, r) => s + (r.total_cast || 0), 0);
+  const nationalNDC = nationalRows.find((r) => r.party_abbr === "NDC")?.votes || 0;
+  const nationalNPP = nationalRows.find((r) => r.party_abbr === "NPP")?.votes || 0;
+  const nationalTotal = nationalRows[0]?.total_cast || 0;
 
   return (
     <div style={{ paddingBottom: 60 }}>
