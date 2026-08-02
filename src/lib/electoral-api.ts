@@ -43,34 +43,55 @@ export interface ConstituencyRow extends CandidateResult {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+async function safeFetch(url: string, label: string) {
+  console.log(`[electoral-api] fetching ${label}: ${url}`);
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    console.log(`[electoral-api] ${label} responded with status ${res.status}`);
+    if (!res.ok) {
+      const body = await res.text().catch(() => "<no body>");
+      console.error(`[electoral-api] ${label} failed. Status: ${res.status}. Body: ${body.slice(0, 500)}`);
+      throw new Error(`${label} failed with status ${res.status}`);
+    }
+    return res;
+  } catch (err) {
+    console.error(`[electoral-api] ${label} threw before/during fetch:`, err);
+    throw err;
+  }
+}
+
 export async function fetchRegionalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
-  const res = await fetch(`${API_URL}/electoral/regional?year=${year}&type=${type}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load regional results");
+  const res = await safeFetch(`${API_URL}/electoral/regional?year=${year}&type=${type}`, "regional results");
   return res.json();
 }
 
 export async function fetchConstituenciesByRegion(regionNameRaw: string, year = 2024, type = "PRESIDENTIAL"): Promise<ConstituencyRow[]> {
-  const res = await fetch(`${API_URL}/electoral/constituencies?year=${year}&type=${type}&region=${encodeURIComponent(regionNameRaw)}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load constituencies");
+  const res = await safeFetch(`${API_URL}/electoral/constituencies?year=${year}&type=${type}&region=${encodeURIComponent(regionNameRaw)}`, "constituencies by region");
   return res.json();
 }
 
 export async function fetchConstituencyDetail(id: string, year = 2024, type = "PRESIDENTIAL"): Promise<ConstituencyRow[] | null> {
-  const res = await fetch(`${API_URL}/electoral/constituencies/${id}?year=${year}&type=${type}`, { cache: "no-store" });
+  const url = `${API_URL}/electoral/constituencies/${id}?year=${year}&type=${type}`;
+  console.log(`[electoral-api] fetching constituency detail: ${url}`);
+  const res = await fetch(url, { cache: "no-store" });
+  console.log(`[electoral-api] constituency detail responded with status ${res.status}`);
   if (res.status === 404) return null;
-  if (!res.ok) throw new Error("Failed to load constituency");
+  if (!res.ok) {
+    const body = await res.text().catch(() => "<no body>");
+    console.error(`[electoral-api] constituency detail failed. Status: ${res.status}. Body: ${body.slice(0, 500)}`);
+    throw new Error(`constituency detail failed with status ${res.status}`);
+  }
   return res.json();
 }
 
-// Kokromoti stores full names like "Ashanti Region"; GINIS displays/slugs the short form "Ashanti".
 export function cleanRegionName(name: string): string {
   return name.replace(/\s+Region$/i, "").trim();
 }
 
 export interface RegionSummary {
   region_id: string;
-  region_name: string;       // clean, e.g. "Ashanti" — use for display and slugify()
-  region_name_raw: string;   // raw, e.g. "Ashanti Region" — use when querying the API
+  region_name: string;
+  region_name_raw: string;
   candidates: CandidateResult[];
   turnout_pct: string | null;
   registered_voters: number | null;
