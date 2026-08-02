@@ -46,7 +46,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 async function safeFetch(url: string, label: string) {
   console.log(`[electoral-api] fetching ${label}: ${url}`);
   try {
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, { cache: "no-store", headers: { "User-Agent": "GINIS-Web/1.0 (+https://ginis.aiei-africa.org)", "Accept": "application/json" } });
     console.log(`[electoral-api] ${label} responded with status ${res.status}`);
     if (!res.ok) {
       const body = await res.text().catch(() => "<no body>");
@@ -73,7 +73,7 @@ export async function fetchConstituenciesByRegion(regionNameRaw: string, year = 
 export async function fetchConstituencyDetail(id: string, year = 2024, type = "PRESIDENTIAL"): Promise<ConstituencyRow[] | null> {
   const url = `${API_URL}/electoral/constituencies/${id}?year=${year}&type=${type}`;
   console.log(`[electoral-api] fetching constituency detail: ${url}`);
-  const res = await fetch(url, { cache: "no-store" });
+  const res = await fetch(url, { cache: "no-store", headers: { "User-Agent": "GINIS-Web/1.0 (+https://ginis.aiei-africa.org)", "Accept": "application/json" } });
   console.log(`[electoral-api] constituency detail responded with status ${res.status}`);
   if (res.status === 404) return null;
   if (!res.ok) {
