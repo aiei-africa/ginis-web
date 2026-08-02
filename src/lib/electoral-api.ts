@@ -60,15 +60,13 @@ async function safeFetch(url: string, label: string) {
   }
 }
 
-export async function fetchNationalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
-  const url = `${API_URL}/electoral/national?year=${year}&type=${type}`;
-  const res = await fetch(url, { cache: "no-store", headers: { "User-Agent": "GINIS-Web/1.0 (+https://ginis.aiei-africa.org)", "Accept": "application/json" } });
-  if (!res.ok) throw new Error(`national results failed with status ${res.status}`);
+export async function fetchRegionalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
+  const res = await safeFetch(`${API_URL}/electoral/regional?year=${year}&type=${type}`, "regional results");
   return res.json();
 }
 
-export async function fetchRegionalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
-  const res = await safeFetch(`${API_URL}/electoral/regional?year=${year}&type=${type}`, "regional results");
+export async function fetchNationalResults(year = 2024, type = "PRESIDENTIAL"): Promise<RegionalRow[]> {
+  const res = await safeFetch(`${API_URL}/electoral/national?year=${year}&type=${type}`, "national results");
   return res.json();
 }
 
@@ -103,6 +101,7 @@ export interface RegionSummary {
   turnout_pct: string | null;
   registered_voters: number | null;
   total_cast: number | null;
+  valid_votes: number | null;
   lean: "stronghold" | "lean" | "swing";
   leanParty: string;
 }
@@ -117,9 +116,10 @@ export function groupRegional(rows: RegionalRow[]): RegionSummary[] {
     const sorted = [...group].sort((a, b) => b.votes - a.votes);
     const top = sorted[0];
     const second = sorted[1];
-    const topShare = parseFloat(top?.vote_share || "0");
-    const secondShare = parseFloat(second?.vote_share || "0");
-    const diff = topShare - secondShare;
+    const validVotes = top.valid_votes || 0;
+    const topPct = validVotes ? (top.votes / validVotes) * 100 : 0;
+    const secondPct = second && validVotes ? (second.votes / validVotes) * 100 : 0;
+    const diff = topPct - secondPct;
     const lean: RegionSummary["lean"] = diff > 15 ? "stronghold" : diff > 5 ? "lean" : "swing";
     return {
       region_id: top.region_id,
@@ -129,6 +129,7 @@ export function groupRegional(rows: RegionalRow[]): RegionSummary[] {
       turnout_pct: top.turnout_pct,
       registered_voters: top.registered_voters,
       total_cast: top.total_cast,
+      valid_votes: top.valid_votes,
       lean,
       leanParty: top.party_abbr || top.candidate_name,
     };
