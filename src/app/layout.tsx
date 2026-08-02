@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import { playfair, outfit, cormorant } from "@/lib/fonts";
+import { rajdhani, nunito, jetbrainsMono } from "@/lib/fonts";
 import { Shell } from "@/components/shell/Shell";
 
 export const metadata: Metadata = {
@@ -16,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${playfair.variable} ${outfit.variable} ${cormorant.variable} font-body bg-bg text-ivory antialiased`}
-      >
+      <body className={`${rajdhani.variable} ${nunito.variable} ${jetbrainsMono.variable} font-body bg-bg text-ivory antialiased`}>
         <AuthProvider>
           <Shell>{children}</Shell>
         </AuthProvider>

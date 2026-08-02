@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const PILLARS = [
   { id: "geographic", icon: "🗺", label: "Geographic", color: "#5BBFEA" },
-  { id: "electoral", icon: "🗳", label: "Electoral", color: "#C6A74E" },
+  { id: "electoral", icon: "🗳", label: "Electoral", color: "#F0A500" },
   { id: "institutions", icon: "🏛", label: "Institutions", color: "#9B59B6" },
   { id: "economic", icon: "📊", label: "Economic", color: "#2ECC71" },
 ];
@@ -26,23 +26,19 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="bg-bg text-ivory min-h-screen font-body font-light">
-      {/* Top accent — full width */}
       <div
         className="h-[2px]"
-        style={{
-          background: "linear-gradient(90deg,transparent,#C6A74E 15%,#E0C97A 50%,#C6A74E 85%,transparent)",
-        }}
+        style={{ background: "linear-gradient(90deg,transparent,#F0A500 15%,#F5BC3D 50%,#F0A500 85%,transparent)" }}
       />
 
-      {/* Header — full width bar, content centered and scaling */}
-      <div className="sticky top-0 z-[100] bg-[rgba(6,13,22,0.97)] backdrop-blur-md border-b border-border">
-        <div className="max-w-full sm:max-w-[640px] md:max-w-[860px] lg:max-w-[1100px] xl:max-w-[1300px] mx-auto px-3.5 sm:px-6 lg:px-10 py-2.5 flex items-center gap-2.5">
+      <div className="sticky top-0 z-[100] bg-[rgba(14,20,32,0.97)] backdrop-blur-md border-b border-border">
+        <div className="max-w-full sm:max-w-[640px] md:max-w-[900px] lg:max-w-[1200px] xl:max-w-[1400px] mx-auto px-3.5 sm:px-6 lg:px-10 py-2.5 flex items-center gap-2.5">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-[30px] h-[30px] rounded-full border-[1.5px] border-gold flex items-center justify-center bg-[rgba(198,167,78,0.08)] shrink-0">
-              <span className="text-sm font-black text-gold font-serif2 leading-none">G</span>
+            <div className="w-[30px] h-[30px] rounded-full border-[1.5px] border-gold flex items-center justify-center bg-[rgba(240,165,0,0.08)] shrink-0">
+              <span className="text-fluid-sm font-black text-gold font-display leading-none">G</span>
             </div>
             <div>
-              <div className="text-xs font-bold tracking-[2px] text-ivory uppercase font-display leading-none">
+              <div className="text-fluid-xs font-bold tracking-[2px] text-ivory uppercase font-display leading-none">
                 GINIS
               </div>
               <div className="text-[7px] tracking-[.14em] text-gold uppercase font-body leading-[1.4] opacity-80">
@@ -50,16 +46,55 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </div>
             </div>
           </Link>
+
+          {/* Desktop top nav */}
+          <nav className="hidden md:flex items-center gap-1 ml-6">
+            {NAV.map((n) => {
+              const pillar = PILLARS.find((p) => p.id === n.id);
+              const isActive = activeId === n.id;
+              const color = pillar?.color ?? "#F0A500";
+              return (
+                <Link
+                  key={n.id}
+                  href={n.href}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-fluid-xs font-body"
+                  style={{
+                    color: isActive ? color : "#8A93A6",
+                    fontWeight: isActive ? 600 : 400,
+                    background: isActive ? `${color}18` : "transparent",
+                  }}
+                >
+                  <span>{n.id === "home" ? "🏠" : pillar?.icon}</span>
+                  {n.label}
+                </Link>
+              );
+            })}
+            <Link
+              href="/fusion"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded text-fluid-xs font-body"
+              style={{
+                color: isFusion ? "#E74C3C" : "#8A93A6",
+                fontWeight: isFusion ? 600 : 400,
+                background: isFusion ? "rgba(231,76,60,.14)" : "transparent",
+              }}
+            >
+              <span>🔮</span>
+              Fusion
+            </Link>
+          </nav>
+
           <div className="flex-1" />
+
+          {/* Mobile pillar shortcuts */}
           {pathname !== "/" && (
-            <div className="flex gap-1">
+            <div className="flex gap-1 md:hidden">
               {PILLARS.map((p) => (
                 <Link
                   key={p.id}
                   href={`/${p.id}`}
                   className="w-[26px] h-[26px] rounded-sm border flex items-center justify-center text-xs"
                   style={{
-                    borderColor: activeId === p.id ? p.color : "rgba(198,167,78,0.14)",
+                    borderColor: activeId === p.id ? p.color : "rgba(240,165,0,0.14)",
                     background: activeId === p.id ? `${p.color}22` : "transparent",
                   }}
                 >
@@ -70,7 +105,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 href="/fusion"
                 className="w-[26px] h-[26px] rounded-sm border flex items-center justify-center text-xs"
                 style={{
-                  borderColor: isFusion ? "#E74C3C" : "rgba(198,167,78,0.14)",
+                  borderColor: isFusion ? "#E74C3C" : "rgba(240,165,0,0.14)",
                   background: isFusion ? "rgba(231,76,60,.22)" : "transparent",
                 }}
               >
@@ -81,29 +116,21 @@ export function Shell({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Page content — same fluid container, grows with breakpoints */}
-      <div className="max-w-full sm:max-w-[640px] md:max-w-[860px] lg:max-w-[1100px] xl:max-w-[1300px] mx-auto px-0 sm:px-4 lg:px-8 pb-20">
+      <div className="max-w-full sm:max-w-[640px] md:max-w-[900px] lg:max-w-[1200px] xl:max-w-[1400px] mx-auto px-0 sm:px-4 lg:px-8 pb-20 md:pb-8">
         {children}
       </div>
 
-      {/* Bottom Nav — full width bar, content centered to match */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[rgba(6,13,22,0.97)] backdrop-blur-md border-t border-border z-[200]">
-        <div className="max-w-full sm:max-w-[640px] md:max-w-[860px] lg:max-w-[1100px] xl:max-w-[1300px] mx-auto flex justify-around sm:justify-center sm:gap-8 lg:gap-14 py-1.5 pb-[11px]">
+      {/* Mobile-only bottom nav */}
+      <div className="fixed bottom-0 left-0 right-0 bg-[rgba(14,20,32,0.97)] backdrop-blur-md border-t border-border z-[200] md:hidden">
+        <div className="flex justify-around py-1.5 pb-[11px]">
           {NAV.map((n) => {
             const pillar = PILLARS.find((p) => p.id === n.id);
             const isActive = activeId === n.id;
-            const color = pillar?.color ?? "#C6A74E";
+            const color = pillar?.color ?? "#F0A500";
             return (
-              <Link
-                key={n.id}
-                href={n.href}
-                className="flex flex-col items-center gap-0.5 px-2.5 py-0.5"
-              >
+              <Link key={n.id} href={n.href} className="flex flex-col items-center gap-0.5 px-2.5 py-0.5">
                 <span className="text-base">{n.id === "home" ? "🏠" : pillar?.icon}</span>
-                <span
-                  className="text-[8px] tracking-[.08em] uppercase"
-                  style={{ color: isActive ? color : "#8A7F6E", fontWeight: isActive ? 600 : 300 }}
-                >
+                <span className="text-[8px] tracking-[.08em] uppercase" style={{ color: isActive ? color : "#8A93A6", fontWeight: isActive ? 600 : 300 }}>
                   {n.label}
                 </span>
               </Link>
@@ -111,10 +138,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           })}
           <Link href="/fusion" className="flex flex-col items-center gap-0.5 px-2.5 py-0.5">
             <span className="text-base">🔮</span>
-            <span
-              className="text-[8px] tracking-[.08em] uppercase"
-              style={{ color: isFusion ? "#E74C3C" : "#8A7F6E", fontWeight: isFusion ? 600 : 300 }}
-            >
+            <span className="text-[8px] tracking-[.08em] uppercase" style={{ color: isFusion ? "#E74C3C" : "#8A93A6", fontWeight: isFusion ? 600 : 300 }}>
               Fusion
             </span>
           </Link>

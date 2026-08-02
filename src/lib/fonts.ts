@@ -1,20 +1,19 @@
-import { Playfair_Display, Outfit, Cormorant_Garamond } from "next/font/google";
+import { Rajdhani, Nunito, JetBrains_Mono } from "next/font/google";
 
-export const playfair = Playfair_Display({
+export const rajdhani = Rajdhani({
   subsets: ["latin"],
-  weight: ["700", "900"],
-  variable: "--font-playfair",
+  weight: ["600", "700"],
+  variable: "--font-display",
 });
 
-export const outfit = Outfit({
+export const nunito = Nunito({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-outfit",
+  variable: "--font-body",
 });
 
-export const cormorant = Cormorant_Garamond({
+export const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  weight: ["400", "500", "700"],
+  variable: "--font-mono",
 });
