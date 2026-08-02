@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { T } from "@/lib/tokens";
-import { fetchConstituencyDetail, partyColor } from "@/lib/electoral-api";
+import { fetchConstituencyDetail, partyColor, cleanRegionName } from "@/lib/electoral-api";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +15,7 @@ export default async function ConstituencyDetailPage({ params }: { params: { reg
   return (
     <div style={{ paddingBottom: 60 }}>
       <Link href={`/electoral/${params.region}`} style={{ display: "flex", alignItems: "center", gap: 5, padding: "10px 14px 6px", color: T.gold, fontSize: 11, fontFamily: "var(--font-playfair)", letterSpacing: ".06em" }}>
-        ← {first.region_name}
+        ← {cleanRegionName(first.region_name)}
       </Link>
       <div style={{ margin: "0 12px 12px", border: `1px solid ${T.border}`, borderRadius: 4, overflow: "hidden" }}>
         <div style={{ padding: "18px 16px 14px", position: "relative", background: "linear-gradient(135deg,rgba(14,30,54,.9),rgba(9,21,36,.9))" }}>
@@ -24,7 +24,7 @@ export default async function ConstituencyDetailPage({ params }: { params: { reg
             {first.collation_status}
           </span>
           <h2 style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.1, marginBottom: 3, fontFamily: "var(--font-playfair)" }}>{first.constituency_name}</h2>
-          <p style={{ fontSize: 11, color: T.muted2, fontWeight: 300 }}>{first.region_name} Region · EC Code {first.ec_code} · 2024 Presidential</p>
+          <p style={{ fontSize: 11, color: T.muted2, fontWeight: 300 }}>{cleanRegionName(first.region_name)} Region · EC Code {first.ec_code} · 2024 Presidential</p>
         </div>
         <div style={{ padding: "12px 15px", borderTop: `1px solid ${T.border}` }}>
           {sorted.map((c) => {

@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { T } from "@/lib/tokens";
-import { findRegionBySlug } from "@/lib/data/regions";
-import { fetchConstituenciesByRegion, partyColor } from "@/lib/electoral-api";
+import { slugify } from "@/lib/data/regions";
+import { fetchRegionalResults, fetchConstituenciesByRegion, groupRegional, partyColor } from "@/lib/electoral-api";
 
 export const dynamic = "force-dynamic";
 
 export default async function RegionConstituenciesPage({ params }: { params: { region: string } }) {
-  const regionMeta = findRegionBySlug(params.region);
-  if (!regionMeta) return notFound();
+  const regionalRows = await fetchRegionalResults(2024, "PRESIDENTIAL");
+  const regions = groupRegional(regionalRows);
+  const match = regions.find((r) => slugify(r.region_name) === params.region);
+  if (!match) return notFound();
 
-  const rows = await fetchConstituenciesByRegion(regionMeta.name, 2024, "PRESIDENTIAL");
+  const rows = await fetchConstituenciesByRegion(match.region_name_raw, 2024, "PRESIDENTIAL");
   if (!rows.length) return notFound();
 
   const map = new Map<string, typeof rows>();
@@ -29,7 +31,7 @@ export default async function RegionConstituenciesPage({ params }: { params: { r
         ← Electoral
       </Link>
       <div style={{ padding: "6px 14px 12px" }}>
-        <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: "var(--font-playfair)", marginBottom: 3 }}>{regionMeta.name}</h2>
+        <h2 style={{ fontSize: 20, fontWeight: 700, fontFamily: "var(--font-playfair)", marginBottom: 3 }}>{match.region_name}</h2>
         <p style={{ fontSize: 11, color: T.muted, fontWeight: 300, lineHeight: 1.7 }}>{constituencies.length} Constituencies · 2024 Presidential · EC Gazetted</p>
       </div>
       <div style={{ padding: "0 12px" }}>
